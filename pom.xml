@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.dep.example</groupId>
+    <artifactId>cucumber-test-framework</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <cucumber.version>4.8.1</cucumber.version>
+        <junit.version>4.13</junit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <failsafe.version>3.0.0-M4</failsafe.version>
+        <java-version>1.8</java-version>
+        <chrome-driver.version>3.141.59</chrome-driver.version>
+        <cucumber-reporting.version>5.0.0</cucumber-reporting.version>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven-surfire-plugin>3.0.0-M4</maven-surfire-plugin>
+        <assertj-core.version>3.16.1</assertj-core.version>
+        <aspectj.version>1.9.5</aspectj.version>
+        <testng.version>7.1.0</testng.version>
+        <allure.version>2.13.3</allure.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber4-jvm</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-support</artifactId>
+            <version>${chrome-driver.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-chrome-driver</artifactId>
+            <version>${chrome-driver.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafe.version}</version>
+                <configuration>
+                    <includes>
+                        <include>TestRunner.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surfire-plugin}</version>
+                <configuration>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                        -Dcucumber.options="--plugin io.qameta.allure.cucumber4jvm.AllureCucumber4Jvm"
+                    </argLine>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!--      <plugin>-->
+            <!--        <groupId>org.apache.maven.plugins</groupId>-->
+            <!--        <artifactId>maven-surefire-plugin</artifactId>-->
+            <!--        <configuration>-->
+            <!--          <testFailureIgnore>true</testFailureIgnore>-->
+            <!--        </configuration>-->
+            <!--      </plugin>-->
+            <!--      <plugin>-->
+            <!--        <groupId>net.masterthought</groupId>-->
+            <!--        <artifactId>maven-cucumber-reporting</artifactId>-->
+            <!--        <version>5.0.0</version>-->
+            <!--        <executions>-->
+            <!--          <execution>-->
+            <!--            <id>execution</id>-->
+            <!--            <phase>verify</phase>-->
+            <!--            <goals>-->
+            <!--              <goal>generate</goal>-->
+            <!--            </goals>-->
+            <!--            <configuration>-->
+            <!--              <jsonFiles>-->
+            <!--                <param>**/*.json</param>-->
+            <!--              </jsonFiles>-->
+            <!--              <outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>-->
+            <!--              <inputDirectory>${project.build.directory}/jsonReports</inputDirectory>-->
+            <!--            </configuration>-->
+            <!--          </execution>-->
+            <!--        </executions>-->
+            <!--      </plugin>-->
+        </plugins>
+    </build>
+</project>

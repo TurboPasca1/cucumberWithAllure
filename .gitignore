@@ -1,0 +1,5 @@
+allure-report/
+allure-results/
+target/
+.idea/
+cucumber-test-framework.iml
